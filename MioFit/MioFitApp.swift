@@ -1,17 +1,12 @@
-//
-//  MioFitApp.swift
-//  MioFit
-//
-//  Created by Сергей Мельников on 18.08.2026.
-//
-
 import SwiftUI
 
 @main
 struct MioFitApp: App {
+    @AppStorage("isDarkMode") private var isDarkMode = false
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            Auth()
+                .preferredColorScheme(isDarkMode ? .dark : .light)
         }
     }
 }
