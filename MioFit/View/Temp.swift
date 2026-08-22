@@ -10,12 +10,10 @@ struct SettingsView: View {
     var body: some View {
         NavigationStack {
             Form {
-                // Секция 1: Профиль пользователя
                 Section(header: Text("Профиль")) {
                     TextField("Имя пользователя", text: $username)
                 }
                 
-                // Секция 2: Настройки приложения
                 Section(header: Text("Уведомления и тема")) {
                     Toggle("Включить уведомления", isOn: $isNotificationsEnabled)
                     
@@ -26,10 +24,8 @@ struct SettingsView: View {
                     }
                 }
                 
-                // Секция 3: Действия
                 Section {
                     Button("Сохранить изменения") {
-                        // Действие при нажатии
                     }
                     .foregroundColor(.blue)
                 }
