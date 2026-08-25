@@ -104,9 +104,9 @@ struct PasswordReset: View {
     
     var isNotEmpty: Bool { !confirmPasswordInput.isEmpty && !passwordInput.isEmpty }
     var passwordValidLevel: String {
-        if passwordInput.count > 7 && passwordInput.contains(["*","!","#","@"]) {
+        if passwordInput.count > 7 && passwordInput.contains(where: {"*!#@".contains($0)}) && passwordInput.contains(where: {$0.isUppercase}) {
             return "Strong"
-        } else if passwordInput.count > 5 && passwordInput.contains(["*","!"]) {
+        } else if passwordInput.count > 5 && passwordInput.contains(where: {"*!".contains($0)}) && passwordInput.contains(where: {$0.isUppercase}) {
             return "Medium"
         } else {
             return "Weak"
@@ -143,16 +143,14 @@ struct PasswordReset: View {
                                 .foregroundStyle(.blue)
                         }
                         .frame(width: 44, height: 44)
-                        
-//TODO: сделать отображение снизу
-                        
-                        .popover(isPresented: $showTip) {
+                                                
+                        .popover(isPresented: $showTip, attachmentAnchor: .point(.bottom), arrowEdge: .top) {
                             VStack(alignment: .leading, spacing: 12) {
                                 Text("Пароль должен содержать:")
                                     .font(.headline)
                                 
                                 VStack(alignment: .leading, spacing: 6) {
-                                    Label("Минимум 8 символов", systemImage: "bolt.horizontal.fill")
+                                    Label("Минимум 5 символов", systemImage: "bolt.horizontal.fill")
                                     Label("Заглавную букву", systemImage: "bolt.horizontal.fill")
                                     Label("Спецсимвол (!@#$)", systemImage: "bolt.horizontal.fill")
                                 }
@@ -172,7 +170,7 @@ struct PasswordReset: View {
                         HStack {
                             let strength = PasswordStrength(rawValue: passwordValidLevel) ?? .weak
                         
-//FIXME: смена цветов не работает
+//TODO: сделать размер .title сложности фиксированным по ширине
                             
                             ForEach(0..<3, id: \.self) {i in
                                 RoundedRectangle(cornerRadius: 16)
