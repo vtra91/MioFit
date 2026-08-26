@@ -23,9 +23,9 @@ struct ClientsListView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                Color(red: 0.96, green: 0.96, blue: 0.98)
-                    .ignoresSafeArea()
-                
+//                Color(red: 0.96, green: 0.96, blue: 0.98)
+//                    .ignoresSafeArea()
+                Color.red
                 VStack(spacing: 16) {
                     HStack {
                         TextField("Поиск", text: $searchText)
