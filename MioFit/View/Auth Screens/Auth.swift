@@ -46,7 +46,7 @@ struct Auth: View {
                     }
                 )
                 .sheet(isPresented: $isSheetShowing) {
-                    PasswordReset()
+                    Temp()
                 }
  
 
