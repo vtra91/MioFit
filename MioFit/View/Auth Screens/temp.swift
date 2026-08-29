@@ -5,6 +5,7 @@ import Foundation
 struct Temp: View {
     @FocusState var isKeyboardFocused: Bool
     @State var text: String = ""
+    @State var path = NavigationPath()
     var digitalText: [String] {
         let characters = Array(text)
         return (0..<6).map {ind in
@@ -12,47 +13,54 @@ struct Temp: View {
         }
     }
     var body: some View {
-        let binding = Binding (
-            get: {
-                self.text
-            }, set: { newValue in
-                let filtered = newValue.filter {$0.isNumber}
-                let sixDigit = filtered.prefix(6)
-                self.text = String(sixDigit)
-                if sixDigit.count == 6 {
-                    isKeyboardFocused = false
-                }
-            }
-        )
-        VStack(spacing: 4) {
-            Text("Введите код подтверждения")
-                .font(.title2).bold()
-            Text("Отправили на ")
-                .font(.callout) + Text("me•••••@mail.ru")
-                .font(.callout.weight(.semibold))
-        }.padding(.bottom)
-        
-        TextField("", text: binding)
-            .keyboardType(.numberPad)
-            .textContentType(.oneTimeCode)
-            .accentColor(.clear)
-            .foregroundStyle(.clear)
-            .frame(maxWidth: .infinity)
-            .frame(height: 50)
-            .overlay() {
-                HStack(spacing: 12) {
-                    ForEach(0..<6, id: \.self) { i in
-                        Digit(text: digitalText[i])
+        NavigationStack(path: $path) {
+            let binding = Binding (
+                get: {
+                    self.text
+                }, set: { newValue in
+                    let filtered = newValue.filter {$0.isNumber}
+                    let sixDigit = filtered.prefix(6)
+                    let prevCount = self.text.count
+                    self.text = String(sixDigit)
+                    if prevCount < 6 && sixDigit.count == 6 {
+                        path.append("Сменить пароль")
                     }
                 }
-                .allowsHitTesting(false)
-            }
-            .contentShape(Rectangle())
-            .onAppear {
-                isKeyboardFocused = true
-            }
-    Button(action: {}, label: {Text("Отправить ещё раз")})
-            .padding(.top)
+            )
+            VStack(spacing: 4) {
+                Text("Введите код подтверждения")
+                    .font(.title2).bold()
+                Text("Отправили на ")
+                    .font(.callout) + Text("me•••••@mail.ru")
+                    .font(.callout.weight(.semibold))
+            }.padding(.bottom)
+            
+            TextField("", text: binding)
+                .keyboardType(.numberPad)
+                .textContentType(.oneTimeCode)
+                .accentColor(.clear)
+                .foregroundStyle(.clear)
+                .frame(maxWidth: .infinity)
+                .frame(height: 50)
+                .overlay() {
+                    HStack(spacing: 12) {
+                        ForEach(0..<6, id: \.self) { i in
+                            Digit(text: digitalText[i])
+                        }
+                    }
+                    .allowsHitTesting(false)
+                }
+                .contentShape(Rectangle())
+                .onAppear {
+                    isKeyboardFocused = true
+                }
+                .navigationDestination(for: String.self) { _ in
+                    PasswordReset()
+                }
+        Button(action: {}, label: {Text("Отправить ещё раз")})
+                .padding(.top)
+        }
+        
     }
 }
 struct Digit: View {
