@@ -14,6 +14,46 @@ struct Auth: View {
         ZStack {
             Color.mainColorBG
             VStack {
+                Button (
+                    action: {
+                        isDarkMode.toggle()
+                    },
+                    label: {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 28)
+                                .frame(width: 80, height: 40)
+                                .foregroundStyle(isDarkMode ? .black.opacity(0.8) : .blue)
+                            Circle()
+                                .fill(isDarkMode ? .white.opacity(0.7) : .yellow)
+                                .frame(width: 30)
+                                .padding(isDarkMode ? .leading : .trailing, 38)
+                            VStack {
+                                HStack(spacing: 16) {
+                                    ForEach(0..<2) { _ in
+                                        Circle()
+                                            .fill(.white)
+                                            .frame(width: 4)
+                                    }
+                                }
+                                Circle()
+                                    .fill(.white)
+                                    .frame(width: 5)
+                                Circle()
+                                    .fill(.white)
+                                    .frame(width: 2)
+                                    .padding(.trailing, 8)
+                            }
+                            .offset(x: -14, y: isDarkMode ? 0 : -40)
+                            
+                            Image(systemName: "cloud.fill")
+                                .font(.system(size: 32))
+                                .foregroundStyle(.white)
+                                .offset(x:isDarkMode ? -20 : 18, y: isDarkMode ? 35 : 15)
+                        }
+                        .clipShape(RoundedRectangle(cornerRadius: 28))
+                      
+                    }
+                )
                 Text("МиоТренинг")
                     .font(.largeTitle).bold()
                     .foregroundStyle(Color.mainColorBlack)
@@ -46,7 +86,7 @@ struct Auth: View {
                     }
                 )
                 .sheet(isPresented: $isSheetShowing) {
-                    Temp()
+                    OneTimePassword()
                 }
  
 
@@ -55,9 +95,6 @@ struct Auth: View {
                     .onTapGesture {
                         hideKeyboard()
                     }
-        }
-        .onTapGesture(count: 2) {
-            isDarkMode.toggle()
         }
         .ignoresSafeArea()
     }

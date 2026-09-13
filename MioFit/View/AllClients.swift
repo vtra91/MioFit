@@ -23,21 +23,9 @@ struct ClientsListView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-//                Color(red: 0.96, green: 0.96, blue: 0.98)
-//                    .ignoresSafeArea()
-                Color.red
+                Color(red: 0.96, green: 0.96, blue: 0.98)
+                    .ignoresSafeArea()
                 VStack(spacing: 16) {
-                    HStack {
-                        TextField("Поиск", text: $searchText)
-
-                        Image(systemName: "magnifyingglass")
-                            .foregroundColor(.gray)
-                    }
-                    .padding(10)
-                    .background(Color(red: 0.94, green: 0.94, blue: 0.95))
-                    .cornerRadius(10)
-                    .padding(.horizontal)
-                    
                     VStack(spacing: 0) {
                         ForEach(clients.indices, id: \.self) { index in
                             let client = clients[index]
@@ -95,6 +83,7 @@ struct ClientsListView: View {
             .navigationTitle("Клиенты")
             .navigationBarTitleDisplayMode(.large)
         }
+        .searchable(text: $searchText, prompt: "Поиск")
     }
 }
 #Preview {
