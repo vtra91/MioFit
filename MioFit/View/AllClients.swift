@@ -21,6 +21,7 @@ struct ClientsListView: View {
     @State private var searchText = ""
     
     var body: some View {
+        Image(systemName: "trash")
         NavigationStack {
             ZStack {
                 Color(red: 0.96, green: 0.96, blue: 0.98)
@@ -82,8 +83,9 @@ struct ClientsListView: View {
             }
             .navigationTitle("Клиенты")
             .navigationBarTitleDisplayMode(.large)
+            .searchable(text: $searchText, prompt: "Поиск")
+
         }
-        .searchable(text: $searchText, prompt: "Поиск")
     }
 }
 #Preview {

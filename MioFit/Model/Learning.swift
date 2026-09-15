@@ -1,66 +1,53 @@
-import SwiftUI
-
-struct Learning: View {
-    @State var isOn = false
-    @State var stack = [String]()
-    @Environment(\.dismiss) var dismiss
-    var body: some View {
-                ZStack {
-                    Color.red
-                    VStack {
-                        NavigationStack(path: $stack) {
-                            Form {
-                                Text("dsfadf")
-                                NavigationLink("aaa", value: "hahaha")
-                                List {
-                                    Text("123")
-                                    Circle() .frame(width: 30)
-                                    Text("45")
-                                    Button("haha") {
-                                        stack = ["Бутерброд", "Счаем"]
-                                    }
-        
-        
-                                }
-        
-                                Section(header: Toggle(isOn: $isOn) { Text("123")}) {
-                                    Text("123")
-                                    Circle() .frame(width: 30)
-                                    Text("45")
-                                }
-                            }
-                            .navigationDestination(for: String.self) { screen in
-                                Text("\(screen) LOL")
-                                    .navigationBarBackButtonHidden(true)
-                                    .toolbar {
-                                        ToolbarItem(placement: .principal) {
-                                            Button(action: {dismiss()}, label:{Image(systemName: "trash")})
-                                        }
-                                    }
-                                    .navigationTitle("хуитаа")
-        
-                        }
-//                            .navigationBarTitleDisplayMode(.inline)
-                            .navigationTitle("TITle")
-        
-        
-        
-                        }
-        
-                    }
-                }
-
-    }
-    init() {
-        let navBarAppearance = UINavigationBarAppearance()
-            navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.red, .font: UIFont(name: "AmericanTypewriter-CondensedBold", size: 35) ?? UIFont()]
-            navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.red, .font: UIFont(name: "AmericanTypewriter-CondensedBold", size: 20) ?? UIFont()]
-            UINavigationBar.appearance().standardAppearance = navBarAppearance
-            UINavigationBar.appearance().scrollEdgeAppearance = navBarAppearance
-            UINavigationBar.appearance().compactAppearance = navBarAppearance
-        }
-}
-
-#Preview {
-    Learning()
-}
+//import Foundation
+//import Combine
+//import SwiftUI
+//
+//struct LoginModel: Identifiable {
+//    let id = UUID()
+//    var name: String
+//}
+//
+//final class LoginVM: ObservableObject {
+//    @Published var name: String = ""
+//    @Published var namesList = [LoginModel]()
+//    func addName(_ name: String) {
+//        self.name = name
+//        let newName = LoginModel(name: name)
+//        namesList.append(newName)
+//    }
+//}
+//
+//struct Learning: View {
+//    @StateObject var vm = LoginVM()
+//    @StateObject var path = MioRouter()
+//    var body: some View {
+//        NavigationStack(path: $path.path) {
+//            Form {
+//                ForEach(vm.namesList) { i in
+//                    Section {
+//                        NavigationLink(value: "Пиво") {
+//                            Text(i.name)
+//                                .foregroundStyle(.black)
+//                        }
+//                           
+//                    }
+//                }
+//            }
+//            .navigationDestination(for: String.self) { i in
+//                Image(systemName: "trash")
+//                    .background {
+//                        Color.red
+//                    }
+//                    .clipShape(Circle())
+//            }
+//            
+//            Button("Добавь меня!") {
+//                vm.addName("Женя")
+//            }
+//        }
+//    }
+//}
+//
+//#Preview {
+//    Learning()
+//}

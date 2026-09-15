@@ -3,13 +3,17 @@ import SwiftUI
 struct Auth: View {
     @AppStorage("isDarkMode") private var isDarkMode = false
 
+    @EnvironmentObject var coordinator: MioCoordinator
+    
     //TODO: Вынести поля в VM
     @State var loginInput: String = ""
     @State var passwordInput: String = ""
     
     @State var isSheetShowing: Bool = false
 
-    var isNotEmpty: Bool { !loginInput.isEmpty && !passwordInput.isEmpty }
+//    var isNotEmpty: Bool { !loginInput.isEmpty && !passwordInput.isEmpty }
+    var isNotEmpty: Bool = true
+
     var body: some View {
         ZStack {
             Color.mainColorBG
@@ -62,7 +66,9 @@ struct Auth: View {
                 LoginInputField(label: "Пароль",placeholder: "Введите пароль", isPassword: true ,input: $passwordInput)
                 Button (
                     action: {
-                        
+                        withAnimation(.easeInOut) {
+                            coordinator.successLogin()
+                        }
                     }, label: {
                         Text("Войти")
                             .foregroundStyle(.white)

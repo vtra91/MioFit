@@ -1,113 +1,88 @@
 import SwiftUI
-import Combine
+import Foundation
 
 
-// MARK: - View
-struct ContentView: View {
-    @StateObject private var viewModel = OTPViewModel()
-    @FocusState private var isKeyboardFocused: Bool
-    
+struct OneTimePassword: View {
+    @FocusState var isKeyboardFocused: Bool
+    @State var text: String = ""
+    @State var path = NavigationPath()
+    var digitalText: [String] {
+        let characters = Array(text)
+        return (0..<6).map {ind in
+            ind < characters.count ? String(characters[ind]) : ""
+        }
+    }
     var body: some View {
-        VStack(spacing: 30) {
-            
-            Text("Enter Verification Code")
-                .font(.headline)
-                .foregroundColor(.secondary)
-            
-            ZStack {
-                // 1. The Visible OTP Boxes
-                HStack(spacing: 12) {
-                    ForEach(0..<6, id: \.self) { index in
-                        OTPBoxView(
-                            text: viewModel.otpDigits[index],
-                            isFilled: !viewModel.otpDigits[index].isEmpty
-                        )
+        NavigationStack(path: $path) {
+            let binding = Binding (
+                get: {
+                    self.text
+                }, set: { newValue in
+                    let filtered = newValue.filter {$0.isNumber}
+                    let sixDigit = filtered.prefix(6)
+                    let prevCount = self.text.count
+                    self.text = String(sixDigit)
+                    if prevCount < 6 && sixDigit.count == 6 {
+                        path.append("Сменить пароль")
                     }
                 }
-                
-                // 2. The Hidden TextField for Keyboard Input
-                TextField("", text: otpBinding)
-                    .keyboardType(.numberPad)
-                    .textContentType(.oneTimeCode) // Enables SMS auto-fill
-                    .focused($isKeyboardFocused)
-                    .foregroundColor(.clear) // Hide the actual text
-                    .accentColor(.clear)     // Hide the cursor
-                    .frame(height: 1)        // Shrink it so it doesn't block touches
-            }
-            // 3. Make the entire ZStack area tappable to trigger the keyboard
-            .contentShape(Rectangle())
-            .onTapGesture {
-                isKeyboardFocused = true
-            }
-            .onAppear {
-                isKeyboardFocused = true // Auto-focus on screen load
-            }
+            )
+            VStack(spacing: 4) {
+                Text("Введите код подтверждения")
+                    .font(.title2).bold()
+                Text("Отправили на ")
+                    .font(.callout) + Text("me•••••@mail.ru")
+                    .font(.callout.weight(.semibold))
+            }.padding(.bottom)
             
-            if viewModel.otpDigits.joined().count == 6 {
-                Button("Verify") {
-                    print("Verifying OTP: \(viewModel.otpText)")
-                    // viewModel.successCompletionHandler?()
+            TextField("", text: binding)
+                .keyboardType(.numberPad)
+                .textContentType(.oneTimeCode)
+                .accentColor(.clear)
+                .foregroundStyle(.clear)
+                .frame(maxWidth: .infinity)
+                .frame(height: 50)
+                .overlay() {
+                    HStack(spacing: 12) {
+                        ForEach(0..<6, id: \.self) { i in
+                            Digit(text: digitalText[i])
+                        }
+                    }
+                    .allowsHitTesting(false)
                 }
-                .buttonStyle(.borderedProminent)
-                .transition(.opacity.combined(with: .move(edge: .bottom)))
-            }
+                .contentShape(Rectangle())
+                .onAppear {
+                    isKeyboardFocused = true
+                }
+                .navigationDestination(for: String.self) { _ in
+                    PasswordReset()
+                }
+        Button(action: {}, label: {Text("Отправить ещё раз")})
+                .padding(.top)
         }
-        .padding()
-        .animation(.easeInOut, value: viewModel.otpText.count)
-    }
-    
-    // Custom Binding to filter numbers and limit to 6 characters cleanly
-    private var otpBinding: Binding<String> {
-        Binding(
-            get: { viewModel.otpText },
-            set: { newValue in
-                let filtered = newValue.filter { $0.isNumber }
-                viewModel.otpText = String(filtered.prefix(6))
-            }
-        )
+        
     }
 }
-
-// MARK: - Single OTP Box Component
-struct OTPBoxView: View {
-    let text: String
-    let isFilled: Bool
-    
+struct Digit: View {
+    var text: String
+    var isTextNotEmpty: Bool {
+        text.count > 0
+    }
     var body: some View {
         Text(text)
             .font(.title2)
             .fontWeight(.semibold)
-            .frame(width: 45, height: 50) // Fixed, reasonable size instead of UIScreen
-            .overlay(
+            .frame(width: 45, height: 50)
+            .overlay {
                 VStack {
                     Spacer()
-                    Rectangle()
-                        .fill(isFilled ? Color.accentColor : Color.gray.opacity(0.5))
+                    RoundedRectangle(cornerRadius: 16)
+                        .fill(isTextNotEmpty ? .blue : .gray.opacity(0.5))
                         .frame(height: 2)
                 }
-            )
-            .animation(.easeInOut(duration: 0.2), value: isFilled)
+            } .animation(.easeInOut(duration: 0.2), value: isTextNotEmpty)
     }
 }
-
-// MARK: - ViewModel
-class OTPViewModel: ObservableObject {
-    @Published var otpText: String = ""
-    @Published var isTextFieldDisabled: Bool = false
-    
-    // Automatically splits the string into an array of 6 characters
-    var otpDigits: [String] {
-        let characters = Array(otpText)
-        return (0..<6).map { index in
-            index < characters.count ? String(characters[index]) : ""
-        }
-    }
-    
-    var isComplete: Bool {
-        return otpText.count == 6
-    }
-}
-
 #Preview {
-    ContentView()
+    OneTimePassword()
 }
