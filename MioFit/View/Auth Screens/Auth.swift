@@ -4,7 +4,8 @@ struct Auth: View {
     @AppStorage("isDarkMode") private var isDarkMode = false
 
     @EnvironmentObject var coordinator: MioCoordinator
-    
+    @StateObject private var allClientsVM = AllClientsVM()
+
     //TODO: Вынести поля в VM
     @State var loginInput: String = ""
     @State var passwordInput: String = ""
