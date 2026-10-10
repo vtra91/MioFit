@@ -1,3 +1,4 @@
+import Combine
 import SwiftUI
 
 @main
@@ -5,7 +6,7 @@ struct MioFitApp: App {
     @AppStorage("isDarkMode") private var isDarkMode = false
     @StateObject private var router: MioRouter
     @StateObject private var coordinator: MioCoordinator
-
+    
     @StateObject var currState = MioState()
 
     var body: some Scene {

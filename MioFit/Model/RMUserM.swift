@@ -9,17 +9,17 @@ struct RMInfo: Decodable {
     let next: String?
     let prev: String?
 }
-struct Location: Decodable {
+struct Location: Decodable, Hashable {
     let name: String
     let url: String
 }
 
-struct Origin: Decodable {
+struct Origin: Decodable, Hashable {
     let name: String
     let url: String
 }
 
-struct RMchar: Decodable {
+struct RMchar: Decodable, Hashable {
     let id: Int
     let name: String
     let status: String
