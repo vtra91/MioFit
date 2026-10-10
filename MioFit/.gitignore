@@ -8,7 +8,7 @@ DerivedData/
 *.plugins
 
 
-MioFit/Model/Learning.swift
+MioFit/Temp/Learning.swift
 
 
 .swiftpm/xcode/

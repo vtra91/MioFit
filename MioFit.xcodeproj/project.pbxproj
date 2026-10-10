@@ -10,9 +10,42 @@
 		D9F6877930343563003918ED /* MioFit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MioFit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		D9E6C2C4305D22920066E53A /* Exceptions for "MioFit" folder in "MioFit" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				base.env,
+				View/Training/Analytic/PostTrainAnalytic.swift,
+			);
+			target = D9F6877830343563003918ED /* MioFit */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		D9C61480307A20A6007FCDBF /* Exceptions for "MioFit" folder in "Copy Bundle Resources" phase from "MioFit" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = D9F6877730343563003918ED /* Resources */;
+			membershipExceptions = (
+				View/Training/Analytic/PostTrainAnalytic.swift,
+			);
+		};
+		D9E6C2C5305D22920066E53A /* Exceptions for "MioFit" folder in "Compile Sources" phase from "MioFit" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = D9F6877530343563003918ED /* Sources */;
+			membershipExceptions = (
+				base.env,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		D9F6877B30343563003918ED /* MioFit */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				D9E6C2C4305D22920066E53A /* Exceptions for "MioFit" folder in "MioFit" target */,
+				D9E6C2C5305D22920066E53A /* Exceptions for "MioFit" folder in "Compile Sources" phase from "MioFit" target */,
+				D9C61480307A20A6007FCDBF /* Exceptions for "MioFit" folder in "Copy Bundle Resources" phase from "MioFit" target */,
+			);
 			path = MioFit;
 			sourceTree = "<group>";
 		};
